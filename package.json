@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "dev:env": "env-cmd .env next dev"
   },
   "dependencies": {
     "@next/swc-darwin-x64": "^13.4.1",
@@ -15,6 +16,7 @@
     "@types/react-dom": "18.2.4",
     "autoprefixer": "10.4.14",
     "axios": "^1.4.0",
+    "env-cmd": "^10.1.0",
     "eslint": "8.40.0",
     "eslint-config-next": "13.4.1",
     "next": "^13.4.1",

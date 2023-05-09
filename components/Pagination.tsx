@@ -1,14 +1,20 @@
 import Link from "next/link";
 import "tailwindcss/tailwind.css";
-import { LIMIT as limit } from "../services";
 
-export default function Pagination({ currentPage, total }) {
-  const totalPages = total / limit;
-  const pageNumbers = [];
+export default function Pagination({
+  currentPage,
+  total,
+}: {
+  currentPage: number;
+  total: number;
+}) {
+  const totalPages = total / process.env.LIMIT;
+  const pageNumbers = Array.from({ length: totalPages }, (_, i) => ++i);
 
-  for (let i = 1; i <= totalPages; i++) {
-    pageNumbers.push(i);
-  }
+  // const pageNumbers = [];
+  // for (let i = 1; i <= totalPages; i++) {
+  //   pageNumbers.push(i);
+  // }
 
   return (
     <nav>
@@ -22,7 +28,7 @@ export default function Pagination({ currentPage, total }) {
                 : "p-2 border rounded-md hover:bg-violet-100"
             }
           >
-            <Link href={`/users/${pageNumber}`}>{pageNumber}</Link>
+            <Link href={`/users?page=${pageNumber}`}>{pageNumber}</Link>
           </li>
         ))}
       </ul>

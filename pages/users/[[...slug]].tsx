@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { MdSearch } from "react-icons/md";
-import Link from "next/link";
 import "tailwindcss/tailwind.css";
-import axios, { AxiosRequestConfig } from "axios";
-
-import { API_URL, LIMIT as limit } from "../../services";
+import axios from "axios";
 import Pagination from "../../components/Pagination";
 import SearchWidget from "../../components/SearchWidget";
 
@@ -26,14 +22,13 @@ export default function Users() {
   const [total, setTotal] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const router = useRouter();
-  const { id } = router.query;
+  const page = router.query.page;
+  const limit = 10;
 
   useEffect(() => {
-    if (!!id) {
-      const page = Number(id - 1);
-      const skip = page * limit;
-      console.log(page);
-      console.log(skip);
+    if (!!page) {
+      const pageNum = Number(page - 1);
+      const skip = pageNum * limit;
 
       const config: {
         string: string;
@@ -47,21 +42,18 @@ export default function Users() {
       };
 
       const getAllUsers = async (): Promise<GetAllUsers> => {
-        const response = await axios.get(API_URL, config);
+        const response = await axios.get(process.env.API_URL, config);
         setUsers(response.data.users);
         setTotal(response.data.total);
-        setCurrentPage(page);
+        setCurrentPage(pageNum);
       };
 
       getAllUsers().catch((error) => {
         console.error(error);
       });
     }
-  }, [id]);
+  }, [page]);
 
-  console.log(total);
-  console.log(users);
-  console.log(currentPage);
   return (
     <div className="p-8 flex flex-col">
       <SearchWidget />
