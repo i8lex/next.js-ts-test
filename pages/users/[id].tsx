@@ -65,7 +65,7 @@ export default function Users() {
   return (
     <div className="p-8 flex flex-col">
       <SearchWidget />
-      <div className="mb-32">
+      <div className="mb-12">
         <ul className="grid gap-6 grid-cols-5 grid-rows-2">
           {users.map(({ id, firstName, lastName, image }) => (
             <li
