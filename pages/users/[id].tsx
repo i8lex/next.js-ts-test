@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { MdSearch } from "react-icons/md";
+import Link from "next/link";
 import "tailwindcss/tailwind.css";
 import axios, { AxiosRequestConfig } from "axios";
 
 import { API_URL, LIMIT as limit } from "../../services";
 import Pagination from "../../components/Pagination";
+import SearchWidget from "../../components/SearchWidget";
 
 interface User {
   id: number;
@@ -19,7 +21,7 @@ interface GetAllUsers {
   total: number;
 }
 
-export default function Home() {
+export default function Users() {
   const [users, setUsers] = useState<User[]>([]);
   const [total, setTotal] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -62,29 +64,13 @@ export default function Home() {
   console.log(currentPage);
   return (
     <div className="p-8 flex flex-col">
+      <SearchWidget />
       <div className="mb-32">
-        <form className="flex gap-2 justify-center mb-3">
-          <div className="relative">
-            <label
-              htmlFor="search"
-              className="text-sm font-medium text-gray-900"
-            />
-            <input
-              type="search"
-              name="search"
-              placeholder="search users"
-              className=" border rounded-md pl-10 pr-2 py-2 text-sm text-gray-600"
-            />
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <MdSearch className="text-gray-400 font-medium text-2xl text-md" />
-            </div>
-          </div>
-        </form>
-        <ul className="grid gap-4 grid-cols-5 grid-rows-2">
+        <ul className="grid gap-6 grid-cols-5 grid-rows-2">
           {users.map(({ id, firstName, lastName, image }) => (
             <li
               key={id}
-              className="py-4 flex flex-col justify-center items-center border rounded-lg p-8"
+              className="py-4 flex flex-col justify-center items-center border rounded-lg p-8 drop-shadow-md hover:saturate-200 hover:scale-105"
             >
               <img className="h-10 w-10 rounded-full mb-3" src={image} alt="" />
               <div className="ml-3 flex justify-between gap-2">

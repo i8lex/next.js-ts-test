@@ -1,8 +1,8 @@
 import Link from "next/link";
 import "tailwindcss/tailwind.css";
+import { LIMIT as limit } from "../services";
 
 export default function Pagination({ currentPage, total }) {
-  const limit = 10;
   const totalPages = total / limit;
   const pageNumbers = [];
 
@@ -18,8 +18,8 @@ export default function Pagination({ currentPage, total }) {
             key={pageNumber}
             className={
               pageNumber - 1 === currentPage
-                ? "active py-1 px-2 border rounded-md"
-                : "p-2 border rounded-md"
+                ? "active py-1 px-2 border rounded-md bg-violet-200"
+                : "p-2 border rounded-md hover:bg-violet-100"
             }
           >
             <Link href={`/users/${pageNumber}`}>{pageNumber}</Link>
