@@ -5,6 +5,7 @@ import axios from "axios";
 import Pagination from "../../components/Pagination";
 import SearchWidget from "../../components/SearchWidget";
 import Image from "next/image";
+import Link from "next/link";
 
 interface User {
   id: number;
@@ -70,19 +71,24 @@ export default function Users() {
               key={id}
               className=" py-4 flex flex-col justify-center items-center border rounded-lg p-8 drop-shadow-md hover:saturate-200 hover:scale-105"
             >
-              <Image
-                priority="high"
-                src={image}
-                alt={`${firstName} ${lastName}`}
-                width={150}
-                height={150}
-                className="h-30 w-30 mb-6"
-              />
-              {/*<img className="h-10 w-10 rounded-full mb-3" src={image} alt="" />*/}
-              <div className="ml-3 flex justify-between gap-2">
-                <p className="text-sm font-medium text-gray-900">{firstName}</p>
-                <p className="text-sm font-medium text-gray-900">{lastName}</p>
-              </div>
+              <Link href={`/user/${id}`}>
+                <Image
+                  priority="high"
+                  src={image}
+                  alt={`${firstName} ${lastName}`}
+                  width={150}
+                  height={150}
+                  className="h-30 w-30 mb-6"
+                />
+                <div className="ml-3 flex justify-between gap-2">
+                  <p className="text-sm font-medium text-gray-900">
+                    {firstName}
+                  </p>
+                  <p className="text-sm font-medium text-gray-900">
+                    {lastName}
+                  </p>
+                </div>
+              </Link>
             </li>
           ))}
         </ul>
