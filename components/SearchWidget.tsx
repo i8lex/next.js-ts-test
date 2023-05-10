@@ -40,7 +40,7 @@ export default function SearchWidget() {
         `${process.env.NEXT_PUBLIC_BASE_API_URL}/search?q=${query}`
       );
       setResults(response.data.users);
-      setSelectedResult(0);
+      setSelectedResult(-1);
     };
 
     fetchResults().catch(console.error);
