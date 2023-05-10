@@ -4,8 +4,7 @@ import "tailwindcss/tailwind.css";
 import axios from "axios";
 import Pagination from "../../components/Pagination";
 import SearchWidget from "../../components/SearchWidget";
-import Image from 'next/image';
-
+import Image from "next/image";
 
 interface User {
   id: number;
@@ -25,9 +24,8 @@ export default function Users() {
   const [currentPage, setCurrentPage] = useState(1);
   const router = useRouter();
   const page = router.query.page;
-  const pageToNum = Number(page)
+  const pageToNum = Number(page);
   const limit = 10;
-
 
   useEffect(() => {
     if (!!page) {
@@ -46,7 +44,10 @@ export default function Users() {
       };
 
       const getAllUsers = async (): Promise<GetAllUsers> => {
-        const response = await axios.get((process.env.NEXT_PUBLIC_BASE_API_URL as string), config);
+        const response = await axios.get(
+          process.env.NEXT_PUBLIC_BASE_API_URL as string,
+          config
+        );
         setUsers(response.data.users);
         setTotal(response.data.total);
         setCurrentPage(pageNum);
@@ -70,11 +71,12 @@ export default function Users() {
               className=" py-4 flex flex-col justify-center items-center border rounded-lg p-8 drop-shadow-md hover:saturate-200 hover:scale-105"
             >
               <Image
-                  src={image}
-                  alt={`${firstName} ${lastName}`}
-                  width={150}
-                  height={150}
-                  className="h-30 w-30 mb-6"
+                priority="high"
+                src={image}
+                alt={`${firstName} ${lastName}`}
+                width={150}
+                height={150}
+                className="h-30 w-30 mb-6"
               />
               {/*<img className="h-10 w-10 rounded-full mb-3" src={image} alt="" />*/}
               <div className="ml-3 flex justify-between gap-2">
