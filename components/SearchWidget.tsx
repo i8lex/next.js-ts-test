@@ -85,7 +85,7 @@ export default function SearchWidget() {
             }}
             name="search"
             placeholder="search users"
-            className="border rounded-md pl-10 pr-2 py-2 text-sm text-gray-600"
+            className="border rounded-md pl-10 pr-2 py-2 text-base text-gray-600"
             ref={inputRef}
           />
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">

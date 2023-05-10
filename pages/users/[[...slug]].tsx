@@ -68,29 +68,30 @@ export default function Users() {
       <div className="mb-12">
         <ul className="grid gap-6 grid-cols-5 grid-rows-2">
           {users.map(({ id, firstName, lastName, image }) => (
-            <li
-              key={id}
-              className=" py-4 flex flex-col justify-center items-center border rounded-lg p-8 drop-shadow-md hover:saturate-200 hover:scale-105"
-            >
-              <Link href={`/user/${id}`}>
-                <Image
-                  // priority="high"
-                  src={image}
-                  alt={`${firstName} ${lastName}`}
-                  width={150}
-                  height={150}
-                  className="h-30 w-30 mb-6"
-                />
-                <div className="ml-3 flex justify-between gap-2">
-                  <p className="text-sm font-medium text-gray-900">
-                    {firstName}
-                  </p>
-                  <p className="text-sm font-medium text-gray-900">
-                    {lastName}
-                  </p>
-                </div>
-              </Link>
-            </li>
+              <li
+                  key={id}
+                  className="py-4 flex flex-col justify-center items-center border rounded-lg p-8 drop-shadow-md hover:saturate-200 hover:scale-105"
+              >
+                <Link href={`/user/${id}`} className="flex flex-wrap items-center flex-col">
+                  <Image
+                      priority="normal"
+                      src={image}
+                      alt={`${firstName} ${lastName}`}
+                      width={150}
+                      height={150}
+                      className="h-30 w-30 mb-6 self-center flex-1"
+                  />
+                  <div className="ml-3 flex flex-wrap items-center gap-2 flex-1">
+                    <p className="text-base font-medium text-gray-900 flex-shrink-0">
+                      {firstName}
+                    </p>
+                    <p className="text-base font-medium text-gray-900 flex-shrink-0">
+                      {lastName}
+                    </p>
+                  </div>
+                </Link>
+              </li>
+
           ))}
         </ul>
       </div>
