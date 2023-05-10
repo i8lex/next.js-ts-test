@@ -8,7 +8,7 @@ export default function Pagination({
   currentPage: number;
   total: number;
 }) {
-  const totalPages = total / process.env.LIMIT;
+  const totalPages  = Number(total) / Number(process.env.NEXT_PUBLIC_BASE_LIMIT);
   const pageNumbers = Array.from({ length: totalPages }, (_, i) => ++i);
 
   // const pageNumbers = [];

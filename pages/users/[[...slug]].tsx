@@ -23,11 +23,13 @@ export default function Users() {
   const [currentPage, setCurrentPage] = useState(1);
   const router = useRouter();
   const page = router.query.page;
+  const pageToNum = Number(page)
   const limit = 10;
+
 
   useEffect(() => {
     if (!!page) {
-      const pageNum = Number(page - 1);
+      const pageNum: number = pageToNum - 1;
       const skip = pageNum * limit;
 
       const config: {
@@ -42,10 +44,11 @@ export default function Users() {
       };
 
       const getAllUsers = async (): Promise<GetAllUsers> => {
-        const response = await axios.get(process.env.API_URL, config);
+        const response = await axios.get((process.env.NEXT_PUBLIC_BASE_API_URL as string), config);
         setUsers(response.data.users);
         setTotal(response.data.total);
         setCurrentPage(pageNum);
+        return { users: response.data.users, total: response.data.total };
       };
 
       getAllUsers().catch((error) => {

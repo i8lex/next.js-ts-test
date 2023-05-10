@@ -4,6 +4,22 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
+
+interface User {
+  id: number;
+  firstName: string;
+  lastName: string;
+  image: string;
+}
+
+
+
+interface fetchResults {
+  users: User[];
+  total: number;
+}
+
+
 export default function SearchWidget() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
@@ -21,7 +37,7 @@ export default function SearchWidget() {
       }
 
       const response = await axios.get(
-        `${process.env.API_URL}/search?q=${query}`
+        `${process.env.NEXT_PUBLIC_BASE_API_URL}/search?q=${query}`
       );
       setResults(response.data.users);
       setSelectedResult(0);
@@ -30,27 +46,23 @@ export default function SearchWidget() {
     fetchResults().catch(console.error);
   }, [query]);
 
-  const handleInputChange = (event) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value);
   };
 
-  const handleKeyDown = (event) => {
-    if (event.key === "ArrowDown") {
-      event.preventDefault();
-      setSelectedResult((prev) => Math.min(prev + 1, results.length - 1));
 
-      console.log(selectedResult);
-      console.log(results[selectedResult]);
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event && event.key === "ArrowDown") {
+      event.preventDefault();
+      setSelectedResult((prev) => prev !== null ? Math.min(prev + 1, results.length - 1) : null);
+
     } else if (event.key === "ArrowUp") {
       event.preventDefault();
 
-      console.log(selectedResult);
-      console.log(results[selectedResult]);
-
-      setSelectedResult((prev) => Math.max(prev - 1, 0));
+      setSelectedResult((prev) => prev !== null ? Math.max(prev - 1, 0) : null);
     } else if (event.key === "Enter" && selectedResult !== null) {
       event.preventDefault();
-      const user = results[selectedResult];
+      const user = results[selectedResult] as { id: string };
       router.push(`/user/${user.id}`);
     }
   };
@@ -84,15 +96,15 @@ export default function SearchWidget() {
 
         {!!results.length && widgetIsActive && (
           <ul className="absolute w-52 z-10 top-full left-0 right-0 bg-white border rounded-md overflow-hidden">
-            {results.map((user, index) => (
-              <li key={user.id}>
+            {results.map(({id,firstName,lastName }, index) => (
+              <li key={id}>
                 <Link
-                  href={`/user/${user.id}`}
+                  href={`/user/${id}`}
                   className={`block px-4 py-2 hover:bg-gray-100 border rounded-md ${
                     selectedResult === index ? "bg-gray-100" : ""
                   }`}
                 >
-                  {user.firstName} {user.lastName}
+                  {firstName} {lastName}
                 </Link>
               </li>
             ))}
