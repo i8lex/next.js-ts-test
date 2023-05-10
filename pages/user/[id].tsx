@@ -49,11 +49,11 @@ export default function User() {
   return (
     <>
       {!!user && (
-        <div className="flex ">
+        <div className="flex justify-center">
           <div className="flex">
             <div>
               <Image
-                priority="high"
+                // priority="high"
                 src={user.image}
                 alt={`${user.firstName} ${user.lastName}`}
                 width={350}

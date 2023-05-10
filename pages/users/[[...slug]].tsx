@@ -61,6 +61,7 @@ export default function Users() {
     }
   }, [page]);
 
+  // @ts-ignore
   return (
     <div className="p-8 flex flex-col">
       <SearchWidget />
@@ -73,7 +74,7 @@ export default function Users() {
             >
               <Link href={`/user/${id}`}>
                 <Image
-                  priority="high"
+                  // priority="high"
                   src={image}
                   alt={`${firstName} ${lastName}`}
                   width={150}
