@@ -1,9 +1,8 @@
 import { MdSearch } from "react-icons/md";
 import axios from "axios";
-import { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-
 
 interface User {
   id: number;
@@ -12,16 +11,13 @@ interface User {
   image: string;
 }
 
-
-
 interface fetchResults {
   users: User[];
   total: number;
 }
 
-
 export default function SearchWidget() {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState<string>("");
   const [results, setResults] = useState([]);
   const [selectedResult, setSelectedResult] = useState<null | number>(null);
   const [widgetIsActive, setWidgetIsActive] = useState(false);
@@ -47,19 +43,22 @@ export default function SearchWidget() {
   }, [query]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(event.target.value);
+    const { value } = event.target;
+    setQuery(value);
   };
-
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event && event.key === "ArrowDown") {
       event.preventDefault();
-      setSelectedResult((prev) => prev !== null ? Math.min(prev + 1, results.length - 1) : null);
-
+      setSelectedResult((prev) =>
+        prev !== null ? Math.min(prev + 1, results.length - 1) : null
+      );
     } else if (event.key === "ArrowUp") {
       event.preventDefault();
 
-      setSelectedResult((prev) => prev !== null ? Math.max(prev - 1, 0) : null);
+      setSelectedResult((prev) =>
+        prev !== null ? Math.max(prev - 1, 0) : null
+      );
     } else if (event.key === "Enter" && selectedResult !== null) {
       event.preventDefault();
       const user = results[selectedResult] as { id: string };
@@ -79,7 +78,7 @@ export default function SearchWidget() {
             onBlur={() => {
               setTimeout(() => {
                 setWidgetIsActive(false);
-              }, 0);
+              }, 5);
             }}
             onFocus={() => {
               setWidgetIsActive(true);
@@ -96,7 +95,7 @@ export default function SearchWidget() {
 
         {!!results.length && widgetIsActive && (
           <ul className="absolute w-52 z-10 top-full left-0 right-0 bg-white border rounded-md overflow-hidden">
-            {results.map(({id,firstName,lastName }, index) => (
+            {results.map(({ id, firstName, lastName }, index) => (
               <li key={id}>
                 <Link
                   href={`/user/${id}`}
