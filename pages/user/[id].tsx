@@ -2,27 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import "tailwindcss/tailwind.css";
 import axios from "axios";
-
+import { User, Address, GetUser } from "../../type";
 import Image from "next/image";
-
-type User ={
-  id: number;
-  firstName: string;
-  lastName: string;
-  address: Address;
-  image: string;
-}
-
-type Address ={
-  address: string;
-  city: string;
-  postalCode: string;
-  state: string;
-}
-
-type GetUser ={
-  user: User;
-}
 
 export default function User() {
   const [user, setUser] = useState<User | undefined>(undefined);
@@ -51,7 +32,7 @@ export default function User() {
       {!!user && (
         <div className="flex items-center justify-center h-screen w-full drop-shadow-md ">
           <div className="max-w-7xl w-full flex drop-shadow-md gap-6">
-            <div >
+            <div>
               <Image
                 priority="normal"
                 src={user.image}
@@ -62,8 +43,12 @@ export default function User() {
               />
             </div>
             <div className=" flex flex-2 gap-4 flex-col justify-end content-start">
-              <p className="text-8xl font-large text-gray-900">{user.firstName}</p>
-              <p className="text-8xl font-large text-gray-900 mb-16">{user.lastName}</p>
+              <p className="text-8xl font-large text-gray-900">
+                {user.firstName}
+              </p>
+              <p className="text-8xl font-large text-gray-900 mb-16">
+                {user.lastName}
+              </p>
               <p className="text-5xl font-medium text-gray-400">{`${user.address.address},`}</p>
               <p className="text-5xl font-medium text-gray-400">{`${user.address.postalCode} ${user.address.city}`}</p>
               <p className="text-5xl font-medium text-gray-400">{`${user.address.state}, USA`}</p>

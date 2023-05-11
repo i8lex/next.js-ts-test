@@ -3,20 +3,8 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import clsx from 'clsx';
-
-
-type User = {
-  id: number;
-  firstName: string;
-  lastName: string;
-  image: string;
-}
-
-type fetchResults ={
-  users: User[];
-  total: number;
-}
+import clsx from "clsx";
+import { GetUsers } from "../type";
 
 export default function SearchWidget() {
   const [query, setQuery] = useState<string>("");
@@ -25,24 +13,41 @@ export default function SearchWidget() {
   const [widgetIsActive, setWidgetIsActive] = useState(false);
   const inputRef = useRef(null);
   const router = useRouter();
+  const limit: number = 10;
+  const skip: number = 0;
+  const config: {
+    string: string;
+    params: { limit: number; skip: number };
+  } = {
+    params: {
+      limit,
+      skip,
+    },
+    string: "",
+  };
 
   useEffect(() => {
-    const fetchResults = async () => {
-      if (query.length < 1) {
-        setResults([]);
-        setSelectedResult(null);
+    const getUsers = async (): Promise<GetUsers> => {
+      if (query.length < 1 && widgetIsActive) {
+        const response = await axios.get(
+          process.env.NEXT_PUBLIC_BASE_API_URL as string,
+          config
+        );
+        setResults(response.data.users);
+        setSelectedResult(-1);
         return;
       }
-
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_BASE_API_URL}/search?q=${query}`
-      );
-      setResults(response.data.users);
-      setSelectedResult(-1);
+      if (query.length > 0 && widgetIsActive) {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_BASE_API_URL}/search?q=${query}`
+        );
+        setResults(response.data.users);
+        setSelectedResult(-1);
+      }
+      return;
     };
-
-    fetchResults().catch(console.error);
-  }, [query]);
+    getUsers().catch(console.error);
+  }, [query, widgetIsActive]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -80,7 +85,7 @@ export default function SearchWidget() {
             onBlur={() => {
               setTimeout(() => {
                 setWidgetIsActive(false);
-              }, 5);
+              }, 100);
             }}
             onFocus={() => {
               setWidgetIsActive(true);
@@ -100,11 +105,11 @@ export default function SearchWidget() {
             {results.map(({ id, firstName, lastName }, index) => (
               <li key={id}>
                 <Link
-                    href={`/user/${id}`}
-                    className={clsx(
-                        'block px-4 py-2 hover:bg-gray-100 border rounded-md',
-                        selectedResult === index && 'bg-gray-100',
-                    )}
+                  href={`/user/${id}`}
+                  className={clsx(
+                    "block px-4 py-2 hover:bg-gray-100 border rounded-md",
+                    selectedResult === index && "bg-gray-100"
+                  )}
                 >
                   {firstName} {lastName}
                 </Link>
