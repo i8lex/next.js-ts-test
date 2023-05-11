@@ -1,4 +1,14 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
+const nextConfig = {
+  reactStrictMode: true,
+  swcMinify: true,
 
-module.exports = nextConfig
+  experimental: {
+    appDir: true,
+  },
+  images: {
+    domains: ["robohash.org"],
+  },
+};
+
+module.exports = nextConfig;

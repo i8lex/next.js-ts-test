@@ -1,0 +1,20 @@
+
+{
+  "presets": ["next/babel"],
+  "plugins": [
+
+    [
+      "next/font", {
+      "swc": true
+    },
+      "inline-react-svg",
+      {
+        "svgo": {
+          "plugins": [
+            { "removeViewBox": false }
+          ]
+        }
+      }
+    ]
+  ]
+}
