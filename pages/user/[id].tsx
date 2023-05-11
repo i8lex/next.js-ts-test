@@ -5,7 +5,7 @@ import axios from "axios";
 
 import Image from "next/image";
 
-interface User {
+type User ={
   id: number;
   firstName: string;
   lastName: string;
@@ -13,14 +13,14 @@ interface User {
   image: string;
 }
 
-interface Address {
+type Address ={
   address: string;
   city: string;
   postalCode: string;
   state: string;
 }
 
-interface GetUser {
+type GetUser ={
   user: User;
 }
 

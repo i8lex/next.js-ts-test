@@ -7,7 +7,7 @@ import SearchWidget from "../../components/SearchWidget";
 import Image from "next/image";
 import Link from "next/link";
 
-interface User {
+type User = {
   id: number;
   firstName: string;
   lastName: string;

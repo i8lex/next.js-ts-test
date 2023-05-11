@@ -3,15 +3,17 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import clsx from 'clsx';
 
-interface User {
+
+type User = {
   id: number;
   firstName: string;
   lastName: string;
   image: string;
 }
 
-interface fetchResults {
+type fetchResults ={
   users: User[];
   total: number;
 }
@@ -98,10 +100,11 @@ export default function SearchWidget() {
             {results.map(({ id, firstName, lastName }, index) => (
               <li key={id}>
                 <Link
-                  href={`/user/${id}`}
-                  className={`block px-4 py-2 hover:bg-gray-100 border rounded-md ${
-                    selectedResult === index ? "bg-gray-100" : ""
-                  }`}
+                    href={`/user/${id}`}
+                    className={clsx(
+                        'block px-4 py-2 hover:bg-gray-100 border rounded-md',
+                        selectedResult === index && 'bg-gray-100',
+                    )}
                 >
                   {firstName} {lastName}
                 </Link>
